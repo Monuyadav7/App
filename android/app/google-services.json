@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "70389472921",
+    "project_id": "my-first-cool-app",
+    "storage_bucket": "my-first-cool-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70389472921:android:93befd945a8d727ba66208",
+        "android_client_info": {
+          "package_name": "com.example.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5z7s1OATtNwIAeu3XHpdDkp024lOvi2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
