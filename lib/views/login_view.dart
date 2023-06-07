@@ -2,7 +2,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../constants/routes.dart';
 import '../firebase_options.dart';
+import 'dart:developer' as devtools show log;
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -65,24 +67,51 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try{
-                   final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
                 email: email,
                  password: password,
                  );
-                 print(userCredential);
+                 final user = FirebaseAuth.instance.currentUser;
+              if(user!=null){
+                if(user.emailVerified){
+                  if(context.mounted){
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    notesRoute, (route) => false,);
+                    }
+                }
+                else{
+                  devtools.log(user.toString());
+                  if(context.mounted){
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    verifyEmailRoute, (route) => false,);
+                    }
+                }
+              }
+              else{
+                if(context.mounted){
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginRoute, (route) => false,);
+                    }
+              }
+                 
               } on FirebaseAuthException catch(e){
                 if(e.code=='wrong-password'){
-                  print('You have entered wrong password');
+                  devtools.log('You have entered wrong password');
                 }
-                print(e.code);
+                devtools.log(e.code);
               }
                 
             },
                   child: const Text('Login')),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(resisterRoute, (route) => false);
+              },child: const Text('Not Resistered? Resister here')
+            )
           ],
         );
             default:
-            return const Text('Loading...');
+            return const CircularProgressIndicator();
           }
           
         }, 

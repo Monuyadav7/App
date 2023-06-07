@@ -4,7 +4,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:developer' as devtools show log;
+import '../constants/routes.dart';
 import '../firebase_options.dart';
 
 class ResisterView extends StatefulWidget {
@@ -73,16 +74,21 @@ class _ResisterViewState extends State<ResisterView> {
                 email: email, 
                 password: password
                 );
-                print(userCredential);
+                devtools.log(userCredential.toString());
             }
              on FirebaseAuthException catch(e){
               if(e.code=='email-already-in-use'){
-                print('You have already resistered, please login');
+                devtools.log('You have already resistered, please login');
               }
             }
               },
               
                   child: const Text('Resister')),
+                  TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false,);
+              },child: const Text('Already Resistered? Login here')
+            )
           ],
         );
             default:
